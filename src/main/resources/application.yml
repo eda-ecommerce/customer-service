@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: "dev"
+  main:
+    banner-mode: "off"
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_ADDRESS:localhost:29092}
+    consumer:
+      auto-offset-reset: earliest
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: customer-service
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:customer-service}
+    password: ${DB_PASSWORD:customer-service}
+    tomcat:
+      test-on-borrow: true
+      validation-query: SELECT 1
+  sql:
+    init:
+      mode: always
+test:
+  topic: test-topic
