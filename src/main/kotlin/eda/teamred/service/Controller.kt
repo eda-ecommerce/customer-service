@@ -9,13 +9,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class Controller (private val customerApplicationService: CustomerApplicationService) {
-    @PostMapping("/send")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun sendMessage(
-        @RequestBody requestBody: StringMessage
-    ){
-        customerApplicationService.sendTestMessage(requestBody.message)
-    }
     data class StringMessage(val message: String)
 
     @PostMapping("/customer")
