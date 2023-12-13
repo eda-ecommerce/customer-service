@@ -1,6 +1,6 @@
 package eda.teamred.service.repository
 
-import eda.teamred.service.entity.Customer
+import eda.teamred.service.model.Customer
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import java.util.UUID
