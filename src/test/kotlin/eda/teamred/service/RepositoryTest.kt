@@ -1,17 +1,14 @@
 package eda.teamred.service
 
-import eda.teamred.service.entity.Customer
+import eda.teamred.service.model.Address
+import eda.teamred.service.model.Customer
 import eda.teamred.service.repository.CustomerRepository
-import jakarta.transaction.Transactional
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
@@ -29,10 +26,10 @@ class RepositoryTest {
     @Autowired
     lateinit var customerRepository: CustomerRepository
 
-
     @Test
     fun WhenFindById_thenReturnCustomer() {
-        val customer= Customer("Test","Testing","Testheim")
+        val address = Address("Streetest","69","42069")
+        val customer = Customer("Thor","Heavy Hammer", address)
         entityManager.persist(customer)
         entityManager.flush()
         val customerFound = customerRepository.findByIdOrNull(customer.id)
@@ -41,7 +38,8 @@ class RepositoryTest {
 
     @Test
     fun WhenDeleteCustomer_thenReturnNull(){
-        val customer= Customer("Test","Testing","Testheim")
+        val address = Address("Streetest","69","42069")
+        val customer = Customer("Thor","Heavy Hammer", address)
         entityManager.persist(customer)
         entityManager.flush()
         customerRepository.deleteById(customer.id)
