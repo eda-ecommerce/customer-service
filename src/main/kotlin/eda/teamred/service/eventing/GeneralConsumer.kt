@@ -1,4 +1,4 @@
-package eda.teamred.service
+package eda.teamred.service.eventing
 
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
@@ -11,12 +11,12 @@ class GeneralConsumer {
     private val logger= LoggerFactory.getLogger(this.javaClass)
 
     var countDownLatch = CountDownLatch(1)
-    var payload = ""
+    lateinit var payload: ConsumerRecord<Any, Any>
     var stringData = ""
-    @KafkaListener(topics = ["\${test.topic}"])
+    @KafkaListener(topics = ["\${spring.kafka.default-topic}"])
     fun firstListener(consumerRecord: ConsumerRecord<Any, Any>){
         logger.info("Message received: [${consumerRecord}]")
-        payload = consumerRecord.toString()
+        payload = consumerRecord
         stringData = consumerRecord.value().toString()
         countDownLatch.countDown()
     }
