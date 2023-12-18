@@ -49,6 +49,34 @@ class CustomerApplicationService(private val customerRepository: CustomerReposit
         return null
     }
 
+    fun updateCustomerAddress(address: String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.address = address
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerLastName(lastName : String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.lastName = lastName
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerEmail(email : String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.email = email
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerPhoneNumber(phoneNumber : String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.phoneNumber = phoneNumber
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
     fun deleteCustomer(id: UUID): Boolean{
         val found = customerRepository.findById(id)
         if (found.isPresent) {
