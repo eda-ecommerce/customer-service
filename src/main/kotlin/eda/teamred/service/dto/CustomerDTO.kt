@@ -9,5 +9,7 @@ import java.util.UUID
 data class CustomerDTO (
     val firstName : String,
     val lastName : String,
-    val address : String
+    val address : String,
+    val email : String = "",
+    val phoneNumber : String = ""
 )

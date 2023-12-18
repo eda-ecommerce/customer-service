@@ -23,13 +23,13 @@ class CustomerApplicationService(private val customerRepository: CustomerReposit
 
     fun fetchCustomers() : List<CustomerDTO>{
         val customers = customerRepository.findAll().toList()
-        return customers.map { C : Customer -> CustomerDTO(C.firstName, C.lastName, C.address) }
+        return customers.map { C : Customer -> CustomerDTO(C.firstName, C.lastName, C.address, C.email, C.phoneNumber) }
     }
 
     fun fetchCustomerById(id : UUID) : CustomerDTO?{
         val customer = customerRepository.findByIdOrNull(id)
         var customerDTO : CustomerDTO? = null
-        if(customer != null) customerDTO = CustomerDTO(customer.firstName, customer.lastName, customer.address)
+        if(customer != null) customerDTO = CustomerDTO(customer.firstName, customer.lastName, customer.address, customer.email, customer.phoneNumber)
         return customerDTO
     }
 
@@ -38,6 +38,36 @@ class CustomerApplicationService(private val customerRepository: CustomerReposit
         customer.firstName = customerDTO.firstName
         customer.lastName = customerDTO.lastName
         customer.address = customerDTO.address
+        customer.email = customerDTO.email
+        customer.phoneNumber = customerDTO.phoneNumber
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerAddress(address: String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.address = address
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerLastName(lastName : String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.lastName = lastName
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerEmail(email : String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.email = email
+        customerRepository.save(customer)
+        producer.sendStringMessage("Updated Customer with id: $id")
+    }
+
+    fun updateCustomerPhoneNumber(phoneNumber : String, id : UUID){
+        val customer = customerRepository.findById(id).get()
+        customer.phoneNumber = phoneNumber
         customerRepository.save(customer)
         producer.sendStringMessage("Updated Customer with id: $id")
     }

@@ -15,14 +15,6 @@ import java.util.UUID
 
 @RestController
 class Controller (private val customerApplicationService: CustomerApplicationService) {
-    @PostMapping("/send")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun sendMessage(
-        @RequestBody requestBody: StringMessage
-    ){
-        customerApplicationService.sendTestMessage(requestBody.message)
-    }
-    data class StringMessage(val message: String)
 
     @PostMapping("/customer")
     fun create(@RequestBody customerDTO : CustomerDTO) : ResponseEntity<UUID>{
@@ -44,6 +36,30 @@ class Controller (private val customerApplicationService: CustomerApplicationSer
     @ResponseStatus(HttpStatus.OK)
     fun update(@RequestBody customerDTO: CustomerDTO, @PathVariable("id") id : UUID){
         customerApplicationService.updateCustomer(customerDTO, id)
+    }
+
+    @PutMapping("/customer/address/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateAddress(@RequestBody address : String, @PathVariable("id") id : UUID){
+        customerApplicationService.updateCustomerAddress(address, id)
+    }
+
+    @PutMapping("/customer/lastName/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateLastName(@RequestBody lastName : String, @PathVariable("id") id : UUID){
+        customerApplicationService.updateCustomerLastName(lastName, id)
+    }
+
+    @PutMapping("/customer/email/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateEmail(@RequestBody email : String, @PathVariable("id") id : UUID){
+        customerApplicationService.updateCustomerEmail(email, id)
+    }
+
+    @PutMapping("/customer/phoneNumber/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updatePhoneNumber(@RequestBody phoneNumber : String, @PathVariable("id") id : UUID){
+        customerApplicationService.updateCustomerPhoneNumber(phoneNumber, id)
     }
 
     @DeleteMapping("/customer/{id}")

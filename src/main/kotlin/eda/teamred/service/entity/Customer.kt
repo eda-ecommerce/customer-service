@@ -13,6 +13,9 @@ class Customer(
     var firstName: String = "",
     var lastName: String = "",
     var address: String = "",
+    //TODO should this be optional?
+    var email : String = "",
+    var phoneNumber : String = "",
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID = UUID.randomUUID()
