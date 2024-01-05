@@ -11,8 +11,9 @@ import java.util.*
 
 @Service
 class CustomerApplicationService(private val customerRepository: CustomerRepository, private val producer: StringProducer) {
-    @Autowired
-    lateinit var customerMapper: CustomerMapper
+    fun sendTestMessage(message: String){
+        producer.sendStringMessage(message)
+    }
 
     fun createCustomer(customerDTO: CustomerDTO): CustomerDTO {
         //check for exact duplicate?
