@@ -11,7 +11,14 @@ class Customer(
     var lastName: String,
     @Embedded
     var address: Address,
+    var email : String,
+    var phoneNumber : String,
     @Id
-    val id: UUID = UUID.randomUUID()
+    val id: UUID
+
 ){
+    constructor(firstName: String,lastName: String,address: Address) : this(firstName,lastName,address,"","",UUID.randomUUID())
+    constructor(firstName: String,lastName: String,address: Address,email: String,phoneNumber: String) : this(firstName,lastName,address,email,phoneNumber,UUID.randomUUID())
+    constructor(firstName: String,lastName: String,address: Address,id: UUID) : this(firstName,lastName,address,"","",id)
+
 }

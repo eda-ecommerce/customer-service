@@ -2,13 +2,10 @@ package eda.teamred.service
 
 import com.google.gson.Gson
 import eda.teamred.service.eventing.CustomerEventProducer
-import eda.teamred.service.eventing.EventType
-import eda.teamred.service.model.Customer
+import eda.teamred.service.eventing.Operation
 import eda.teamred.service.eventing.GeneralConsumer
 import eda.teamred.service.eventing.GeneralEvent
-import eda.teamred.service.model.Address
-import eda.teamred.service.model.CustomerDTO
-import eda.teamred.service.model.CustomerMapper
+import eda.teamred.service.model.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,7 +24,6 @@ class KafkaTests {
 
     @Autowired
     lateinit var customerEventProducer: CustomerEventProducer
-
 
     @Autowired
     lateinit var generalConsumer: GeneralConsumer
@@ -56,12 +52,11 @@ class KafkaTests {
         val address = Address("Streetest","69","42069")
         val data = Customer("Thor","Heavy Hammer", address)
         val customerDTO = customerMapper.toDto(data)
-        customerEventProducer.emitEvent(EventType.CREATED,customerDTO, topic)
+        customerEventProducer.emitEvent(Operation.CREATED,customerDTO, topic)
         val messageConsumed = generalConsumer.countDownLatch.await(10, TimeUnit.SECONDS)
         assert(messageConsumed)
-        val jsonString =  generalConsumer.payload.value().toString()
-        val consumedEvent = Gson().fromJson(jsonString,GeneralEvent::class.java)
-        val dto = Gson().fromJson(consumedEvent.payload, CustomerDTO::class.java)
+        val jsonString = generalConsumer.payload.value().toString()
+        val dto = Gson().fromJson<DTO>(jsonString, CustomerDTO::class.java)
         assert(dto.equals(customerDTO))
     }
 }
