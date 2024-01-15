@@ -1,13 +1,11 @@
 package eda.teamred.service
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import eda.teamred.service.eventing.CustomerEventProducer
 import eda.teamred.service.eventing.Operation
 import eda.teamred.service.model.Customer
 import eda.teamred.service.model.CustomerDTO
 import eda.teamred.service.model.CustomerMapper
 import eda.teamred.service.repository.CustomerRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -15,8 +13,6 @@ import java.util.*
 class CustomerApplicationService(private val customerRepository: CustomerRepository, private val producer: CustomerEventProducer) {
     val customerMapper = CustomerMapper()
     fun createCustomer(customerDTO: CustomerDTO): CustomerDTO {
-        //check for exact duplicate?
-        //we disregard any ids
         val newCustomer = customerMapper.toEntity(customerDTO)
         customerRepository.save(newCustomer)
         val newDTO = customerMapper.toDto(newCustomer)
@@ -30,9 +26,12 @@ class CustomerApplicationService(private val customerRepository: CustomerReposit
     }
 
     fun fetchCustomerById(id : UUID) : CustomerDTO?{
-        val customer = customerRepository.findByIdOrNull(id)
+        val customer = customerRepository.findById(id)
         //return dto or null
-        return customerMapper.toDto(customer?:return null)
+        if (customer.isPresent){
+            return customerMapper.toDto(customer.get())
+        }
+        return null
     }
 
     fun updateCustomer(customerDTO: CustomerDTO, id : UUID): CustomerDTO?{
