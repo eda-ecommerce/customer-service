@@ -40,7 +40,6 @@ class CustomerApplicationService(private val customerRepository: CustomerReposit
             val customer = found.get()
             val updatedCustomer = customerMapper.toEntity(customer.id,customerDTO)
             customerRepository.save(updatedCustomer)
-            //TODO refactor to event schema
             val newDTO = customerMapper.toDto(updatedCustomer)
             producer.emitEvent(Operation.UPDATED,newDTO)
             return newDTO
