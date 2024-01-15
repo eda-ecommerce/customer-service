@@ -91,7 +91,7 @@ class ControllerIntegrationTests {
         val hashMap = list!!.first()
         val id = hashMap.get("id")
         assert(UUID.fromString(id)==customer.id)
-        //TODO What the fuck?
+
     }
 
     @Test

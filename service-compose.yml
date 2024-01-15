@@ -7,5 +7,5 @@ services:
     environment:
       SPRING_DATASOURCE_URL: 'jdbc:mysql://team-red-db-1:3306/database?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
   '
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: 'team-red-kafka-1:9092'
-      KAFKA_BOOTSTRAP_ADDRESS: 'team-red-kafka-1:9092'
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: 'customer-service-kafka-1:9092'
+      KAFKA_BOOTSTRAP_ADDRESS: 'customer-service-kafka-1:9092'
