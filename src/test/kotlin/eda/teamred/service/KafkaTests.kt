@@ -1,6 +1,7 @@
 package eda.teamred.service
 
 import com.google.gson.Gson
+import com.ninjasquad.springmockk.MockkBean
 import eda.teamred.service.eventing.CustomerEventProducer
 import eda.teamred.service.eventing.Operation
 import eda.teamred.service.eventing.GeneralConsumer
@@ -29,7 +30,7 @@ class KafkaTests {
     @Autowired
     lateinit var customerApplicationService: CustomerApplicationService
 
-    @MockK
+    @MockkBean
     lateinit var customerRepository: CustomerRepository
 
     @Autowired
@@ -83,7 +84,59 @@ class KafkaTests {
     @Test
     fun creatingCustomerEmitsEvent(){
         every { customerRepository.findById(any()) } returns Optional.of(testCustomer)
+        every{ customerRepository.save(any())} returns testCustomer
         customerApplicationService.createCustomer(testCustomerDTO)
+        val messageConsumed = generalConsumer.countDownLatch.await(10, TimeUnit.SECONDS)
+        assert(messageConsumed)
+        val payloadValue =  generalConsumer.payload.value().toString()
+        val dto = Gson().fromJson(payloadValue, CustomerDTO::class.java)
+        equalsTestDtoValues(dto)
+    }
+
+    @Test
+    fun fetchCustomersReturnsListOfAllCustomersAsDTO(){
+        every { customerRepository.findAll() } returns listOf(testCustomer, testCustomer, testCustomer)
+        var customers : List<CustomerDTO> = customerApplicationService.fetchCustomers()
+
+        assert(customers.isNotEmpty())
+
+        customers.forEach { x -> equalsTestDtoValues(x) }
+    }
+
+    @Test
+    fun fetchCustomerByIdReturnsDto(){
+        every { customerRepository.findById(any()) } returns Optional.of(testCustomer)
+
+        val result = customerApplicationService.fetchCustomerById(UUID.randomUUID())
+        assert(result != null)
+        equalsTestDtoValues(result!!)
+    }
+
+    @Test
+    fun updateCustomerUpdatesReturnsUpdatedDTOEmitsEvent(){
+        every { customerRepository.findById(any()) } returns Optional.of(testCustomer)
+        every{ customerRepository.save(any())} returns testCustomer
+
+        val newCustomer = customerApplicationService.updateCustomer(testCustomerDTO, UUID.randomUUID())
+        assert(newCustomer != null)
+        equalsTestDtoValues(newCustomer!!)
+
+        val messageConsumed = generalConsumer.countDownLatch.await(10, TimeUnit.SECONDS)
+        assert(messageConsumed)
+        val payloadValue =  generalConsumer.payload.value().toString()
+        val dto = Gson().fromJson(payloadValue, CustomerDTO::class.java)
+        equalsTestDtoValues(dto)
+    }
+
+    @Test
+    fun deleteCustomerReturnsTrueIfDeletedEmitsEvent(){
+        every { customerRepository.findById(any()) } returns Optional.of(testCustomer)
+        every{ customerRepository.save(any())} returns testCustomer
+        every{customerRepository.deleteById(any())} returns Unit
+
+        val success = customerApplicationService.deleteCustomer(UUID.randomUUID())
+        assert(success)
+
         val messageConsumed = generalConsumer.countDownLatch.await(10, TimeUnit.SECONDS)
         assert(messageConsumed)
         val payloadValue =  generalConsumer.payload.value().toString()
