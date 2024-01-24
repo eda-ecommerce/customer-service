@@ -53,6 +53,7 @@ jobs:
     # add write permissions?
     permissions:
       contents: write
+      packages: write
     # the platform this will run on.
     runs-on: ubuntu-latest
     # a job consists of multiple steps
