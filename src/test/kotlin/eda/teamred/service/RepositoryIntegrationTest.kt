@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 //Disable the replacement of mysql datasource with h2
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class RepositoryTest {
+class RepositoryIntegrationTest {
 
     @Autowired
     lateinit var entityManager: TestEntityManager

@@ -58,7 +58,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   datasource:
-    url: jdbc:mysql://localhost:3306/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST:localhost:3306}/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${DB_USERNAME:customer-service}
     password: ${DB_PASSWORD:customer-service}
     tomcat:
@@ -92,7 +92,7 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         temp.use_jdbc_metadata_defaults: false
   datasource:
-    url: jdbc:mysql://localhost:3306/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST:localhost:3306}/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${DB_USERNAME:customer-service}
     password: ${DB_PASSWORD:customer-service}
     tomcat:

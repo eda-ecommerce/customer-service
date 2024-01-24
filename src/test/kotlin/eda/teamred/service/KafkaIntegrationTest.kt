@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = ["listeners=PLAINTEXT://localhost:9092", "port=9092"])
-class KafkaIntegrationTests {
+class KafkaIntegrationTest {
 
     @Autowired
     lateinit var customerApplicationService: CustomerApplicationService

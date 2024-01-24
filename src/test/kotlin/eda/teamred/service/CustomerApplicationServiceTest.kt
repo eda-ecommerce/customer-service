@@ -19,7 +19,7 @@ import java.util.*
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @ActiveProfiles("unit-test")
-class CustomerApplicationServiceTests {
+class CustomerApplicationServiceTest {
 
     @MockkBean
     lateinit var customerRepository: CustomerRepository
