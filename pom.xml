@@ -22,12 +22,6 @@
 	</properties>
 	<profiles>
 		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
 			<id>integration-test</id>
 			<properties>
 				<skip.integration.tests>false</skip.integration.tests>
@@ -38,6 +32,13 @@
 			<id>all-tests</id>
 			<properties>
 				<skip.integration.tests>false</skip.integration.tests>
+				<skip.unit.tests>false</skip.unit.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>unit-test</id>
+			<properties>
+				<skip.integration.tests>true</skip.integration.tests>
 				<skip.unit.tests>false</skip.unit.tests>
 			</properties>
 		</profile>
@@ -165,9 +166,13 @@
 				<version>3.2.2</version>
 				<configuration>
 					<excludes>
-						<skipTests>${skip.unit.tests}</skipTests>
-						<exclude>**/*IntegrationTest.kt</exclude>
+						<exclude>*IntegrationTest</exclude>
+						<exclude>*RepositoryTest</exclude>
 					</excludes>
+					<includes>
+						<include>**/**/**/*UnitTest.class</include>
+						<skipTests>${skip.unit.tests}</skipTests>
+					</includes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -184,7 +189,7 @@
 				</executions>
 				<configuration>
 					<includes>
-						<include>**/*IntegrationTest.kt</include>
+						<include>**/**/**/*IntegrationTest.class</include>
 						<skipTests>${skip.integration.tests}</skipTests>
 					</includes>
 				</configuration>

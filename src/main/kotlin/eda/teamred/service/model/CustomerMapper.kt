@@ -20,8 +20,8 @@ class CustomerMapper {
             firstName = customerDTO.firstName ?: throw ValidationException("First name cannot be null"),
             lastName = customerDTO.lastName ?: throw ValidationException("Last name cannot be null"),
             address = customerDTO.address ?: throw ValidationException("Address cannot be null"),
-            phoneNumber = customerDTO.phoneNumber ?: "",
-            email = customerDTO.email ?: ""
+            email = customerDTO.email,
+            phoneNumber = customerDTO.phoneNumber
         )
     }
     fun toEntity(id: UUID,customerDTO: CustomerDTO):Customer{
@@ -30,8 +30,8 @@ class CustomerMapper {
             lastName = customerDTO.lastName ?: throw ValidationException("Last name cannot be null"),
             address = customerDTO.address ?: throw ValidationException("Address cannot be null"),
             id = id,
-            phoneNumber = customerDTO.phoneNumber ?: "",
-            email = customerDTO.email?: ""
+            phoneNumber = customerDTO.phoneNumber,
+            email = customerDTO.email
         )
     }
 }
