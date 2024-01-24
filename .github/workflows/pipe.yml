@@ -39,7 +39,7 @@ jobs:
           # setup maven cache as well
           cache: maven
       - name: Unit-Test
-        run: mvn clean compile surefire:test
+        run: ./mvnw surefire:test
       - name: Integration-Test
         env:
           DB_HOST: localhost:3306
@@ -47,7 +47,7 @@ jobs:
           DB_USERNAME: 'customer-service'
           DB_DBNAME: 'database'
           KAFKA_BOOTSTRAP_ADDRESS: localhost:29092
-        run: mvn clean compile failsafe:integration-test
+        run: ./mvnw failsafe:integration-test
 
   # name of the job(s)
   release:
