@@ -40,16 +40,14 @@ jobs:
           cache: maven
       - name: mvnw
         run: chmod +x ./mvnw
-      - name: Unit-Test
-        run: ./mvnw surefire:test
-      - name: Integration-Test
+      - name: Test
         env:
           DB_HOST: localhost:3306
           DB_PASSWORD: 'customer-service'
           DB_USERNAME: 'customer-service'
           DB_DBNAME: 'database'
           KAFKA_BOOTSTRAP_ADDRESS: localhost:29092
-        run: ./mvnw failsafe:integration-test
+        run: mvn verify -Pall-tests
 
   # name of the job(s)
   release:

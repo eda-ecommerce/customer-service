@@ -170,7 +170,7 @@
 						<exclude>*RepositoryTest</exclude>
 					</excludes>
 					<includes>
-						<include>**/**/**/*Test.class</include>
+						<include>**/**/**/*UnitTest.class</include>
 						<skipTests>${skip.unit.tests}</skipTests>
 					</includes>
 				</configuration>
