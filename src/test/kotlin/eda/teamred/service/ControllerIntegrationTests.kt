@@ -18,7 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 import kotlin.collections.HashMap
 
-//@DataJpaTest
 //Annotate to find config of application. TODO: Create separate test configs (maybe testcontainers?)
 @ExtendWith(SpringExtension::class)
 //Disable the replacement of mysql datasource with h2
@@ -34,6 +33,7 @@ class ControllerIntegrationTests {
     @Autowired
     lateinit var customerRepository: CustomerRepository
 
+    //TODO switch to new Fixtures
     final val customer = Customer(
         firstName = "Odin",
         lastName = "Hammerfall",
@@ -49,13 +49,6 @@ class ControllerIntegrationTests {
         lastName = customer.lastName,
         address = customer.address
     )
-
-    fun equalsTestDtoValues(pDTO: CustomerDTO){
-        assert(pDTO.firstName == testCustomerDTO.firstName)
-        assert(pDTO.lastName == testCustomerDTO.lastName)
-        assert(pDTO.address == testCustomerDTO.address)
-    }
-
     @BeforeEach
     fun setup(){
         customerRepository.deleteAll()
@@ -67,7 +60,7 @@ class ControllerIntegrationTests {
         assert(result != null)
         assert(result.statusCode == HttpStatus.CREATED)
         assert(result.hasBody())
-        equalsTestDtoValues(result.body!!)
+        assertDtoEqualsDto(result.body!!, testCustomerDTO)
     }
 
     @Test
@@ -77,7 +70,7 @@ class ControllerIntegrationTests {
         assert(result != null)
         assert(result.statusCode == HttpStatus.OK)
         assert(result.hasBody())
-        equalsTestDtoValues(result.body!!)
+        assertDtoEqualsDto(result.body!!, testCustomerDTO)
     }
 
     @Test
@@ -102,21 +95,19 @@ class ControllerIntegrationTests {
         assert(result != null)
         assert(result.statusCode == HttpStatus.OK)
         assert(result.hasBody())
-        //TODO generalize, will be out of date on addition of new attributes
-        assert(result.body!!.id == customer.id) // shouldnt change
-        assert(result.body!!.firstName == updatedCustomer.firstName)
-        assert(result.body!!.lastName == updatedCustomer.lastName)
-        assert(result.body!!.address == updatedCustomer.address)
+        assertDtoEqualsDto(result.body!!, updatedCustomer)
+        assert(result.body!!.id == customer.id)
     }
 
     @Test
     fun deleteCustomer_returnsNotFound(){
         customerRepository.save(customer)
+        //Cant check status of delete??
         testRestTemplate.delete("/customer/${customer.id}")
-        val result4 = testRestTemplate.getForEntity("/customer/${customer.id}", CustomerDTO::class.java)
-        assert(result4 != null)
-        assert(result4.statusCode == HttpStatus.NOT_FOUND)
-        assert(!result4.hasBody())
+        val result = testRestTemplate.getForEntity("/customer/${customer.id}", CustomerDTO::class.java)
+        assert(result != null)
+        assert(result.statusCode == HttpStatus.NOT_FOUND)
+        assert(!result.hasBody())
     }
 
 }
