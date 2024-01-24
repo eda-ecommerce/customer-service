@@ -5,7 +5,7 @@ import eda.teamred.service.model.DTO
 import org.apache.kafka.clients.producer.ProducerRecord
 
 open class GeneralEvent (val operation: Operation, val payload: DTO) {
-    val source: String = "customer-service"
+    val source: String = "customer"
     val timestamp = System.currentTimeMillis() / 1000
 
     fun toKafkaRecord(topic: String): ProducerRecord<String, String> {

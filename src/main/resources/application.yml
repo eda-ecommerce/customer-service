@@ -49,8 +49,8 @@ spring:
       group-id: customer-service
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      key-serializer: org.apache.kafka.common.serialization.
-    default-topic: customer-service
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    default-topic: customer
   jpa:
     hibernate:
       ddl-auto: create-drop

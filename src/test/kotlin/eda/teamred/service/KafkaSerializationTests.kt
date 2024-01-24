@@ -61,7 +61,7 @@ class KafkaSerializationTests {
             }
         }
         assert(operation == Operation.CREATED)
-        assert(source == "customer-service")
+        assert(source == "customer")
         assert(timestamp != null) //TODO check if timestamp is actually correct
     }
 }
