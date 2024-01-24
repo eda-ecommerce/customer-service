@@ -74,7 +74,7 @@ jobs:
             @semantic-release/git
         env:
           persist-credentials: false
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_JANNIK }}
 
       - name: convert repository name to lowercase
         id: repo-name
