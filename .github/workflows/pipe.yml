@@ -12,7 +12,6 @@ on:
     # this defines the branches you can push to, in order to execute the workflow
     #branches:
     #  - 'main'
-    #  -
 # a workflow consists of multiple jobs
 jobs:
   test:
