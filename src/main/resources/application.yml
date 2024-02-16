@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: "dev"
+    active: "prod"
   main:
     banner-mode: "off"
 ---
@@ -41,7 +41,7 @@ spring:
     activate:
       on-profile: "prod"
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_ADDRESS:localhost:29092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_ADDRESS:redpanda:9093}
     consumer:
       auto-offset-reset: earliest
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -53,12 +53,12 @@ spring:
     default-topic: customer
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost:3306}/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST:mysql:3306}/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${DB_USERNAME:customer-service}
     password: ${DB_PASSWORD:customer-service}
     tomcat:
