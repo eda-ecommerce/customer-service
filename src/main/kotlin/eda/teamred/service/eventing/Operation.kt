@@ -7,5 +7,8 @@ import com.fasterxml.jackson.annotation.JsonView
 enum class Operation(@JsonValue val value: String) {
     CREATED("created"),
     UPDATED("updated"),
-    DELETED("deleted")
+    DELETED("deleted");
+    override fun toString(): String {
+        return name.lowercase()
+    }
 }
