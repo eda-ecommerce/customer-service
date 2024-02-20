@@ -6,6 +6,7 @@ import eda.teamred.service.model.Customer
 import eda.teamred.service.model.CustomerDTO
 import eda.teamred.service.model.CustomerMapper
 import eda.teamred.service.repository.CustomerRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -13,6 +14,12 @@ import java.util.*
 class CustomerApplicationService(private val customerRepository: CustomerRepository, private val producer: CustomerEventProducer) {
     val customerMapper = CustomerMapper()
     fun createCustomer(customerDTO: CustomerDTO): CustomerDTO {
+        if (customerDTO.id !=null) {
+            val found = customerRepository.findByIdOrNull(customerDTO.id)
+            if (found != null) {
+                return customerMapper.toDto(found)
+            }
+        }
         val newCustomer = customerMapper.toEntity(customerDTO)
         customerRepository.save(newCustomer)
         val newDTO = customerMapper.toDto(newCustomer)
