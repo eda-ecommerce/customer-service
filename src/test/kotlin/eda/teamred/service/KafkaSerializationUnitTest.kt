@@ -50,13 +50,13 @@ class KafkaSerializationUnitTest {
         var source : String? = null
         var timestamp: String? = null
         headers.forEach { header: Header ->
-            if (header.key().toString().equals("operation")){
+            if (header.key().toString() == "operation"){
                 operation = Operation.valueOf(String(header.value()))
             }
-            if (header.key().toString().equals("source")){
+            if (header.key().toString() == "source"){
                 source = String(header.value())
             }
-            if (header.key().toString().equals("timestamp")){
+            if (header.key().toString() == "timestamp"){
                 timestamp = String(header.value())
             }
         }
