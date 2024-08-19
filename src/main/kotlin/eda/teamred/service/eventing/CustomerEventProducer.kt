@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class CustomerEventProducer(private val kafkaTemplate: KafkaTemplate<String, String>) {
-    @Value("\${spring.kafka.default-topic}")
+    @Value("customer")
     lateinit var defaultTopic: String
     fun emitEvent(operation: Operation, dto: DTO, topic: String = defaultTopic) {
         val event = GeneralEvent(operation, dto)

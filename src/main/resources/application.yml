@@ -21,7 +21,6 @@ spring:
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    default-topic: embedded-test-topic
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -29,9 +28,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   datasource:
-    url: jdbc:mysql://localhost:3306/${DB_DBNAME:database}?useSSL=false&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME:customer-service}
-    password: ${DB_PASSWORD:customer-service}
+    url: jdbc:mysql://${DB_HOST:localhost:3306}/${DB_DBNAME:cs}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:cs}
+    password: ${DB_PASSWORD:eda-password}
     tomcat:
       test-on-borrow: true
       validation-query: SELECT 1
@@ -56,7 +55,6 @@ spring:
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    default-topic: customer
   jpa:
     hibernate:
       ddl-auto: update
@@ -88,7 +86,6 @@ spring:
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    default-topic: embedded-test-topic
   jpa:
     hibernate:
       # This allows startup without a database

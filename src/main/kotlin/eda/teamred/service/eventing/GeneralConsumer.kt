@@ -17,7 +17,7 @@ class GeneralConsumer {
     lateinit var headers: Headers
     var stringData = ""
 
-    @KafkaListener(topics = ["\${spring.kafka.default-topic}"])
+    @KafkaListener(topics = ["embedded-test-topic"])
     fun customerListener(consumerRecord: ConsumerRecord<Any, Any>){
         logger.info("Message received: [${consumerRecord}]")
         savedConsumerRecord = consumerRecord
